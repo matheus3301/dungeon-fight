@@ -44,8 +44,12 @@ export type Shot = {
   damage: number;
   ability?: "red" | "green" | "blue";
   powerName?: string;
+  precision?: number;
+  at?: number;
+  counterTargets?: string[];
 };
 export type LogEntry = {
+  speakerId?: string;
   id: number;
   text: string;
   kind: "info" | "good" | "bad";

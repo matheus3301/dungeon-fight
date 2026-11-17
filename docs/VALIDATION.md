@@ -41,3 +41,15 @@ Não foi executado teste de carga, restauração de backup, teste com vários wo
 `npm audit --omit=dev` não apontou vulnerabilidades. A auditoria completa apontou quatro entradas de severidade alta na cadeia de build Vite/fdir/tinyglobby/picomatch, referentes ao mesmo [alerta de ReDoS em picomatch](https://github.com/advisories/GHSA-fc5q-39xc-vjpf). A correção automática sugerida exigia um downgrade incompatível do Vite; ele não foi aplicado. Essas dependências não fazem parte da imagem de runtime. Nenhum scanner de imagem estava disponível neste ambiente, portanto não se afirma que houve varredura de vulnerabilidades do sistema operacional.
 
 Configuração e limites operacionais em [DEPLOYMENT.md](DEPLOYMENT.md).
+
+## Versão 0.2 - Cenas e novo arremesso
+
+- 13 testes aprovados com PostgreSQL 18 descartável e dois clientes Socket.IO, sem testes pulados. Incluem sorte com entradas repetidas, vantagem de boa soltura, comandos idempotentes sem consumir outra sorte, trajetória idêntica entre jogadores e identidade do chat.
+- 222 assets verificados, agora incluindo os frames idle/run dos oito heróis e os tiles dos cenários.
+- Build TypeScript/Vite e imagem com base atualizada por `--pull`; execução de produção como usuário `node`, health check saudável e `persistence: postgres`.
+- Reinício da imagem de produção recuperou a mesma vaga, revisão, fase e resultado completo do arremesso no PostgreSQL. A comparação desconsidera a ordem das propriedades JSON, que o armazenamento JSONB pode reorganizar.
+- Navegador desktop: chegada à vila, música efetivamente tocando depois da interação, mensagem em balão, escolha de rota por teclado, apresentação do adversário, pressão/soltura e erro com contra-ataque.
+- Viewport 390×844: cenário, personagens, HUD do inimigo e controles conferidos. Corrigido o aumento indevido da largura do cenário causado por aspect-ratio e min-height. Sem imagens ausentes ou erros/warnings no console na verificação.
+- As preferências de áudio e a arquitetura de persistência permanecem locais ao navegador e ao servidor, respectivamente. O novo resultado não depende da conclusão da animação para ser salvo.
+
+Capturas locais em `artifacts/v02-mobile.jpg` e `artifacts/v02-combat-desktop.jpg` ficam fora do Git. Referências e parâmetros estão em [RETRO-REFERENCE.md](RETRO-REFERENCE.md); exploração livre e reações cinematográficas encadeadas continuam no [roadmap](ROADMAP.md). O alerta de ferramentas de build e a ausência de scanner de imagem registrados acima continuam aplicáveis; `npm audit --omit=dev` passou sem alertas.

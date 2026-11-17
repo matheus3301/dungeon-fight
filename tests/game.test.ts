@@ -10,11 +10,11 @@ import { applyCommand, simulateShot, view } from "../src/server/engine";
 import type { Room, Command } from "../src/shared/types";
 const token = "a".repeat(64),
   other = "b".repeat(64);
-async function setup() {
+async function setup(random?: () => number) {
   const dir = await mkdtemp(join(tmpdir(), "dungeon-test-"));
   const store = new FileStore(dir);
   await store.init();
-  const service = new RoomService(store);
+  const service = new RoomService(store, random);
   const { room, player } = await service.create("Alice", token, randomUUID());
   return {
     room,
@@ -213,7 +213,7 @@ test("boss forbids paid recovery, rejects empty dice before mutation", async () 
   }
 });
 test("original demo expedition reaches all three shops and a final outcome", async () => {
-  const s = await setup();
+  const s = await setup(() => 0.5);
   try {
     let r = await start(s),
       iterations = 0;
@@ -269,6 +269,7 @@ test("tricky enemy turns region 1 into a miss before applying hit-only powers", 
         color: "red",
         input: { direction: 0.5 + 32 / 105, power: (25 - 3.2) / 49, loft: 0.4 },
       }),
+      () => 0.5,
     );
     assert.equal(n.lastShot!.hit, false);
     assert.equal(n.lastShot!.damage, 0);

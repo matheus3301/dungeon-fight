@@ -4,6 +4,12 @@ Uma mesa cooperativa de fantasia para jogar no navegador: convide amigos, escolh
 
 [Jogar online](https://dungeon-fight.mmonteiro.dev) · [Código-fonte](https://github.com/matheus3301/dungeon-fight)
 
+## Novidades da versão 0.2
+
+Vila e salas vistas de cima, chegada dos heróis, balões de chat, apresentação dos inimigos e ataques no cenário. O arremesso agora combina mira, segurar/soltar e sorte no servidor. Música e efeitos vêm ligados; o navegador pode aguardar a primeira interação para liberar o som.
+
+[Referências e mecânica](docs/RETRO-REFERENCE.md) · [Roadmap](docs/ROADMAP.md)
+
 ## O que já funciona
 
 - Sala privada por link, até seis jogadores, lobby e heróis exclusivos. Solo controla dois heróis.

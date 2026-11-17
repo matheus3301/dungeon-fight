@@ -21,7 +21,10 @@ const cleanName = (n: unknown) => {
 };
 export class RoomService {
   private queues = new Map<string, Promise<unknown>>();
-  constructor(public store: Store) {}
+  constructor(
+    public store: Store,
+    private random?: () => number,
+  ) {}
   serialize<T>(key: string, fn: () => Promise<T>): Promise<T> {
     const task = (this.queues.get(key) ?? Promise.resolve())
       .catch(() => {})
@@ -150,7 +153,7 @@ export class RoomService {
           );
         if (Object.keys(record.commands).length > 20000)
           throw new RuleError("Limite de ações da sala atingido.");
-        const room = applyCommand(record.state, actor.id, cmd);
+        const room = applyCommand(record.state, actor.id, cmd, this.random);
         const next: RecordData = {
           state: room,
           commands: {

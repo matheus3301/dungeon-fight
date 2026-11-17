@@ -1,4 +1,4 @@
-import { trajectory } from "../shared/trajectory";
+import { rollThrow } from "../shared/throw";
 import { randomInt, randomUUID } from "node:crypto";
 import {
   heroes as definitions,
@@ -224,7 +224,7 @@ function nextTurn(r: Room) {
 }
 export function simulateShot(
   input: Record<string, unknown>,
-  random: () => number = Math.random,
+  random: () => number = () => randomInt(1000000) / 1000000,
 ): Omit<Shot, "id" | "heroId" | "color" | "damage"> {
   const number = (name: string) => {
     const n = input[name];
@@ -237,43 +237,8 @@ export function simulateShot(
   const direction = number("direction"),
     power = number("power"),
     loft = number("loft");
-  const x = 50 + (direction - 0.5) * 105 + (random() - 0.5) * 2.4,
-    y = 94 - (26 + power * 49 + loft * 8) + (random() - 0.5) * 2.4;
-  const d = Math.hypot((x - 50) / 35, (y - 43) / 30),
-    hole = Math.hypot(x - 32, y - 36) < 2.7 || Math.hypot(x - 68, y - 55) < 2.7;
-  const hit = d <= 1 && !hole;
-  const bullseye = hit && d < 0.095;
-  const value = !hit
-    ? 0
-    : bullseye
-      ? 10
-      : d < 0.28
-        ? 5
-        : d < 0.5
-          ? 4
-          : d < 0.7
-            ? 3
-            : d < 0.85
-              ? 2
-              : 1;
-  const points = trajectory(x, y, loft);
-  return {
-    x,
-    y,
-    icon: random() < 1 / 3,
-    hit,
-    bullseye,
-    value,
-    bounces: loft >= 0.65 ? 2 : 1,
-    points,
-    reason: hole
-      ? "O dado caiu em um buraco."
-      : !hit
-        ? "O dado saiu do alvo."
-        : bullseye
-          ? "Na mosca!"
-          : `Acerto na região ${value}.`,
-  };
+  const release = input.release === undefined ? 0.62 : number("release");
+  return rollThrow({ direction, power, loft, release }, random);
 }
 function resolveShot(r: Room, shot: Shot, ability?: "red" | "green" | "blue") {
   const h = r.heroes.find((x) => x.id === shot.heroId)!;
@@ -308,12 +273,16 @@ function resolveShot(r: Room, shot: Shot, ability?: "red" | "green" | "blue") {
       if (conscious(hero)) hero.hp = Math.min(hero.maxHp, hero.hp + 1);
   }
   if (power === "gold") r.gold++;
+  shot.counterTargets = [];
   if (!shot.hit) {
     if (power === "dodge") damage = 2;
     else {
       const targets =
         r.enemy!.trait === "rabid" ? r.heroes.filter(conscious) : [h];
-      for (const target of targets) takeDamage(target, r.enemy!.damage);
+      for (const target of targets) {
+        shot.counterTargets.push(target.id);
+        takeDamage(target, r.enemy!.damage);
+      }
     }
     if (r.enemy!.trait === "greedy") r.gold = Math.max(0, r.gold - 1);
   }
@@ -350,6 +319,7 @@ export function applyCommand(
   original: Room,
   actor: string,
   cmd: Command,
+  random: () => number = () => randomInt(1000000) / 1000000,
 ): Room {
   const r = structuredClone(original);
   const p = cmd.payload ?? {};
@@ -462,7 +432,8 @@ export function applyCommand(
         heroId: h.id,
         color,
         damage: 0,
-        ...simulateShot(input, () => randomInt(1000000) / 1000000),
+        at: Date.now(),
+        ...simulateShot(input, random),
       };
       if (r.room?.challenge === "doubleBounce" && shot.bounces < 2) {
         shot.hit = false;
@@ -646,6 +617,7 @@ export function applyCommand(
         "Mensagem inválida.",
       );
       addLog(r, `${player.name}: ${p.text.trim()}`);
+      r.log[r.log.length - 1].speakerId = actor;
       break;
     }
     case "potion": {

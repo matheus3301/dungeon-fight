@@ -1,4 +1,7 @@
-import { trajectory } from "../shared/trajectory";
+import { rollThrow, SHOT_DURATION, BATTLE_DURATION } from "../shared/throw";
+import { Sprite } from "./Sprite";
+import { WorldStage } from "./WorldStage";
+import { LaunchControl } from "./LaunchControl";
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { io } from "socket.io-client";
@@ -39,37 +42,6 @@ function stored<T>(key: string, fallback: T): T {
   } catch {
     return fallback;
   }
-}
-function Sprite({
-  src,
-  size = 64,
-  className = "",
-}: {
-  src: string;
-  size?: number;
-  className?: string;
-}) {
-  const [frame, setFrame] = useState(0);
-  useEffect(() => {
-    if (
-      !src.includes("/0x72/") ||
-      !src.includes("_idle_anim_f0") ||
-      matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    const timer = setInterval(() => setFrame((f) => (f + 1) % 4), 220);
-    return () => clearInterval(timer);
-  }, [src]);
-  return (
-    <img
-      className={`sprite ${className}`}
-      src={src.replace(/_idle_anim_f0/, `_idle_anim_f${frame}`)}
-      alt=""
-      width={size}
-      height={size}
-      style={{ width: size, height: size }}
-    />
-  );
 }
 function Die({
   color,
@@ -114,6 +86,7 @@ function Board({
   shots = [],
   direction,
   power,
+  loft,
   hidden = false,
   onAim,
   training = false,
@@ -122,6 +95,7 @@ function Board({
   shots?: Shot[];
   direction: number;
   power: number;
+  loft: number;
   hidden?: boolean;
   onAim?: (d: number, p: number) => void;
   training?: boolean;
@@ -132,21 +106,26 @@ function Board({
     z: number;
   } | null>(null);
   const [flying, setFlying] = useState(false);
+  const [rotation, setRotation] = useState(0);
   const id = useRef("");
   useEffect(() => {
     if (!shot || shot.id === id.current) return;
     id.current = shot.id;
     let raf = 0;
     const start = performance.now(),
-      reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      reduced =
+        matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        !shot.at ||
+        Date.now() - shot.at > 6000;
     setFlying(!reduced);
     const tick = (now: number) => {
-      const t = reduced ? 1 : Math.min((now - start) / 1100, 1),
+      const t = reduced ? 1 : Math.min((now - start) / SHOT_DURATION, 1),
         n = Math.min(
           shot.points.length - 1,
           Math.floor(t * (shot.points.length - 1)),
         );
       setMoving(shot.points[n]);
+      setRotation(reduced ? 0 : t * 1080);
       if (t < 1) raf = requestAnimationFrame(tick);
       else setFlying(false);
     };
@@ -160,7 +139,7 @@ function Board({
       y = ((e.clientY - box.top) / box.height) * 100;
     onAim(
       Math.min(1, Math.max(0, 0.5 + (x - 50) / 105)),
-      Math.min(1, Math.max(0, (94 - y - 30) / 49)),
+      Math.min(1, Math.max(0, (68 - y - loft * 8) / 49)),
     );
   };
   return (
@@ -270,6 +249,18 @@ function Board({
             strokeWidth="2"
           />
         </g>
+        {!hidden && (
+          <ellipse
+            cx={(50 + (direction - 0.5) * 105) * 5}
+            cy={(68 - power * 49 - loft * 8) * 5}
+            rx="42"
+            ry="36"
+            fill="#e3bf7310"
+            stroke="#e3bf73"
+            strokeDasharray="4 5"
+            opacity=".65"
+          />
+        )}
         <path
           d={`M250 468 L${250 + (direction - 0.5) * 190} ${400 - power * 65}`}
           stroke="#e3bf73"
@@ -321,7 +312,7 @@ function Board({
               }
               stroke="#191924"
               strokeWidth="2"
-              transform={flying ? "rotate(25)" : ""}
+              transform={flying ? `rotate(${rotation})` : ""}
             />
             <text textAnchor="middle" y="4" fill="#22202c" fontSize="12">
               {shot.icon ? "✥" : "•"}
@@ -591,7 +582,11 @@ function Assets() {
             licença do código.
           </p>
           <p>
-            <a href="https://github.com/matheus3301/dungeon-fight" target="_blank" rel="noreferrer">
+            <a
+              href="https://github.com/matheus3301/dungeon-fight"
+              target="_blank"
+              rel="noreferrer"
+            >
               Código-fonte desta versão ↗
             </a>
           </p>
@@ -633,11 +628,13 @@ function App() {
     [die, setDie] = useState<Color>("red"),
     [ability, setAbility] = useState("red"),
     [trainingShot, setTrainingShot] = useState<Shot | null>(null),
-    [sound, setSound] = useState(false),
-    [music, setMusic] = useState(false),
+    [sound, setSound] = useState(() => stored("guild:sound", true)),
+    [music, setMusic] = useState(() => stored("guild:music", true)),
     [recipient, setRecipient] = useState(""),
     [message, setMessage] = useState(""),
     [copied, setCopied] = useState(false);
+  const [cinematic, setCinematic] = useState(false),
+    [animating, setAnimating] = useState(false);
   const roomRef = useRef<State | null>(null),
     sessionRef = useRef<Session | null>(stored("guild:current", null)),
     pendingRef = useRef<Command | null>(null),
@@ -653,6 +650,12 @@ function App() {
       ...next,
       onlineIds: next.onlineIds ?? previous?.onlineIds,
     };
+    if (
+      next.lastShot?.id !== previous?.lastShot?.id &&
+      next.lastShot?.at &&
+      Date.now() - next.lastShot.at < 6000
+    )
+      setAnimating(true);
     roomRef.current = merged;
     setRoom(merged);
   };
@@ -758,6 +761,7 @@ function App() {
   }, [modal]);
   useEffect(() => {
     soundRef.current = sound;
+    localStorage.setItem("guild:sound", JSON.stringify(sound));
   }, [sound]);
   const play = (id: string) => {
     if (!soundRef.current) return;
@@ -767,31 +771,57 @@ function App() {
   };
   useEffect(() => {
     if (!room?.lastShot || seenShot.current === room.lastShot.id) return;
+    if (!room.lastShot.at || Date.now() - room.lastShot.at > 6000) {
+      seenShot.current = room.lastShot.id;
+      return;
+    }
     seenShot.current = room.lastShot.id;
     play("throw");
     const t = setTimeout(
       () => play(room.lastShot!.damage ? "hit" : "ui"),
-      1050,
+      SHOT_DURATION,
     );
     return () => clearTimeout(t);
   }, [room?.lastShot?.id]);
+  const musicTrack =
+    room?.phase === "combat" || room?.phase === "reaction"
+      ? "battle"
+      : "exploration";
   useEffect(() => {
+    localStorage.setItem("guild:music", JSON.stringify(music));
     if (!music) {
       musicRef.current?.pause();
       return;
     }
-    const id =
-      room?.phase === "combat" || room?.phase === "reaction"
-        ? "battle"
-        : "exploration";
-    musicRef.current?.pause();
-    const a = new Audio(`/assets/packs/audio/${id}.ogg`);
+    const a = musicRef.current;
+    if (!a) return;
     a.loop = true;
-    a.volume = 0.12;
+    a.volume = 0.16;
     musicRef.current = a;
-    void a.play().catch(() => {});
-    return () => a.pause();
-  }, [music, room?.phase]);
+    const resume = () => {
+      if (a.paused) void a.play().catch(() => {});
+    };
+    resume();
+    window.addEventListener("pointerdown", resume);
+    window.addEventListener("keydown", resume);
+    return () => {
+      a.pause();
+      window.removeEventListener("pointerdown", resume);
+      window.removeEventListener("keydown", resume);
+    };
+  }, [music, musicTrack]);
+  useEffect(() => {
+    const latest = room?.lastShot ?? trainingShot;
+    if (!latest || !latest.at || Date.now() - latest.at > 6000) return;
+    setAnimating(true);
+    const t = setTimeout(
+      () => setAnimating(false),
+      matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? 250
+        : BATTLE_DURATION,
+    );
+    return () => clearTimeout(t);
+  }, [room?.lastShot?.id, trainingShot?.id]);
   const send = async (type: string, payload: Record<string, unknown> = {}) => {
     if (!room || busy) return;
     if (pendingRef.current) {
@@ -868,40 +898,25 @@ function App() {
       setDie(room.available[0] ?? "white");
     if (!recipient && room.heroes.length) setRecipient(room.heroes[0].id);
   }, [room?.revision]);
-  const train = () => {
-    const x = 50 + (direction - 0.5) * 105,
-      y = 94 - (26 + power * 49 + loft * 8),
-      d = Math.hypot((x - 50) / 35, (y - 43) / 30),
-      hit =
-        d <= 1 &&
-        Math.hypot(x - 32, y - 36) >= 2.7 &&
-        Math.hypot(x - 68, y - 55) >= 2.7;
+  const launch = (release: number) => {
+    if (room) {
+      void send("throw", {
+        color: die,
+        ability,
+        input: { direction, power, loft, release },
+      });
+      return;
+    }
     setTrainingShot({
       id: crypto.randomUUID(),
       heroId: "ferro",
       color: die,
-      x,
-      y,
-      icon: false,
-      hit,
-      bullseye: d < 0.095,
-      value: hit
-        ? d < 0.095
-          ? 10
-          : d < 0.28
-            ? 5
-            : d < 0.5
-              ? 4
-              : d < 0.7
-                ? 3
-                : d < 0.85
-                  ? 2
-                  : 1
-        : 0,
-      bounces: loft >= 0.65 ? 2 : 1,
-      points: trajectory(x, y, loft),
-      reason: hit ? "Bom arremesso!" : "Fora do alvo. Ajuste a mira.",
       damage: 0,
+      at: Date.now(),
+      ...rollThrow(
+        { direction, power, loft, release },
+        () => crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296,
+      ),
     });
     play("throw");
   };
@@ -916,9 +931,21 @@ function App() {
       setError("Copie o código da sala: " + room!.code);
     }
   };
-  const disabled = busy || !connected || pending;
+  const presentationBattle = Boolean(
+    room &&
+      (["combat", "reaction"].includes(room.phase) ||
+        (animating && room.lastShot)),
+  );
+  const disabled = busy || !connected || pending || cinematic || animating;
   return (
     <>
+      <audio
+        ref={musicRef}
+        src={`/assets/packs/audio/${musicTrack}.ogg`}
+        loop
+        preload="auto"
+        hidden
+      />
       <header className="topbar">
         <a
           className="brand"
@@ -979,7 +1006,7 @@ function App() {
         <button onClick={() => setMusic(!music)} aria-pressed={music}>
           ♫ Música {music ? "ligada" : "desligada"}
         </button>
-        <span>Conteúdo original de demonstração · v0.1</span>
+        <span>Conteúdo original de demonstração · v0.2</span>
       </div>
       {error && (
         <div className="error-banner" role="alert">
@@ -1020,7 +1047,7 @@ function App() {
               [
                 "03",
                 "Mire, lance, sobreviva",
-                "Escolha um dado disponível. Ajuste direção, força e elevação. Acertos ferem o monstro; erros provocam seu contra-ataque. O símbolo ✥ ativa o poder da cor.",
+                "Escolha um dado, mire no alvo e segure para preparar. Solte na faixa dourada para melhorar a precisão. Cada quique tem sorte calculada no servidor. Acertos ferem o inimigo; erros provocam seu contra-ataque.",
               ],
               [
                 "04",
@@ -1100,6 +1127,14 @@ function App() {
               </div>
             )}
           </div>
+          {room && (
+            <WorldStage
+              room={room}
+              disabled={busy || !connected || pending || animating}
+              onPath={(index) => void send("path", { index })}
+              onCinematic={setCinematic}
+            />
+          )}
           {room?.phase === "lobby" ? (
             <section className="lobby">
               <div className="lobby-main">
@@ -1197,6 +1232,30 @@ function App() {
                 <button className="text-button full" onClick={share}>
                   {copied ? "Copiado!" : "Copiar convite para os amigos ↗"}
                 </button>
+                <form
+                  className="chat"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (message.trim()) {
+                      void send("chat", { text: message });
+                      setMessage("");
+                    }
+                  }}
+                >
+                  <input
+                    aria-label="Mensagem para o grupo"
+                    placeholder="Fale com a guilda…"
+                    maxLength={280}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                  <button
+                    aria-label="Enviar mensagem"
+                    disabled={disabled || !message.trim()}
+                  >
+                    ↗
+                  </button>
+                </form>
                 <p className="small-note">
                   Solo? Você ganha um segundo herói ao iniciar. Seu lugar é
                   salvo neste navegador.
@@ -1352,22 +1411,27 @@ function App() {
                     </div>
                   </div>
                 )}
-                <Board
-                  shot={room?.lastShot ?? trainingShot}
-                  shots={room?.shots}
-                  direction={direction}
-                  power={power}
-                  hidden={Boolean(myTurn && room?.room?.challenge === "blind")}
-                  onAim={
-                    !room || myTurn
-                      ? (d, p) => {
-                          setDirection(d);
-                          setPower(p);
-                        }
-                      : undefined
-                  }
-                  training={!room}
-                />
+                {(!room || presentationBattle) && (
+                  <Board
+                    shot={room?.lastShot ?? trainingShot}
+                    shots={room?.shots}
+                    direction={direction}
+                    power={power}
+                    loft={loft}
+                    hidden={Boolean(
+                      myTurn && room?.room?.challenge === "blind",
+                    )}
+                    onAim={
+                      !room || myTurn
+                        ? (d, p) => {
+                            setDirection(d);
+                            setPower(p);
+                          }
+                        : undefined
+                    }
+                    training={!room}
+                  />
+                )}
                 {!room && (
                   <div className="practice-label">
                     TREINO LOCAL{" "}
@@ -1411,31 +1475,52 @@ function App() {
                         />
                       ))}
                     </div>
-                    <div className="sliders">
-                      {[
-                        ["Direção", direction, setDirection],
-                        ["Força", power, setPower],
-                        ["Elevação", loft, setLoft],
-                      ].map(([label, value, set]) => (
-                        <label key={label as string}>
-                          {label as string}
-                          <b>{Math.round(Number(value) * 100)}%</b>
-                          <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step=".01"
-                            value={value as number}
-                            disabled={Boolean(room && !myTurn) || disabled}
-                            onChange={(e) =>
-                              (set as (v: number) => void)(
-                                Number(e.target.value),
-                              )
-                            }
-                          />
-                        </label>
-                      ))}
+                    <div className="arc-options">
+                      <button
+                        className={loft < 0.65 ? "selected" : ""}
+                        disabled={disabled || Boolean(room && !myTurn)}
+                        aria-pressed={loft < 0.65}
+                        onClick={() => setLoft(0.35)}
+                      >
+                        ↗ Arco baixo · 1 quique
+                      </button>
+                      <button
+                        className={loft >= 0.65 ? "selected" : ""}
+                        disabled={disabled || Boolean(room && !myTurn)}
+                        aria-pressed={loft >= 0.65}
+                        onClick={() => setLoft(0.8)}
+                      >
+                        ⤴ Arco alto · 2 quiques
+                      </button>
                     </div>
+                    <details className="aim-adjustments">
+                      <summary>Ajuste fino da mira · teclado</summary>
+                      <div className="sliders">
+                        {[
+                          ["Direção", direction, setDirection],
+                          ["Força", power, setPower],
+                          ["Elevação", loft, setLoft],
+                        ].map(([label, value, set]) => (
+                          <label key={label as string}>
+                            {label as string}
+                            <b>{Math.round(Number(value) * 100)}%</b>
+                            <input
+                              type="range"
+                              min="0"
+                              max="1"
+                              step=".01"
+                              value={value as number}
+                              disabled={Boolean(room && !myTurn) || disabled}
+                              onChange={(e) =>
+                                (set as (v: number) => void)(
+                                  Number(e.target.value),
+                                )
+                              }
+                            />
+                          </label>
+                        ))}
+                      </div>
+                    </details>
                     {die === "white" && room && (
                       <label className="white-ability">
                         Se vier ✥, usar
@@ -1462,8 +1547,7 @@ function App() {
                           ? challengeInfo[room.room.challenge].description
                           : "Você também pode clicar no alvo para ajustar a mira."}
                       </span>
-                      <button
-                        className="primary launch"
+                      <LaunchControl
                         disabled={
                           disabled ||
                           Boolean(
@@ -1474,22 +1558,8 @@ function App() {
                                   : !room.available.includes(die))),
                           )
                         }
-                        onClick={() =>
-                          room
-                            ? void send("throw", {
-                                color: die,
-                                ability,
-                                input: { direction, power, loft },
-                              })
-                            : train()
-                        }
-                      >
-                        {busy
-                          ? "Salvando…"
-                          : room
-                            ? "Arremessar dado ↗"
-                            : "Testar arremesso ↗"}
-                      </button>
+                        onLaunch={launch}
+                      />
                     </div>
                     {room &&
                       myTurn &&
@@ -1504,39 +1574,6 @@ function App() {
                           {room.enemy?.level} de dano
                         </button>
                       )}
-                  </div>
-                )}
-                {room?.phase === "path" && (
-                  <div className="decision-panel">
-                    <div className="eyebrow">O PRÓXIMO PASSO</div>
-                    <h2>
-                      {canChoose
-                        ? "Qual história vamos contar?"
-                        : `${heroDef(leader!.id).name} está escolhendo o caminho.`}
-                    </h2>
-                    {canChoose ? (
-                      <div className="path-options">
-                        {room.candidates.map((r, i) => (
-                          <button
-                            key={i}
-                            disabled={disabled}
-                            onClick={() => void send("path", { index: i })}
-                          >
-                            <span>
-                              CAMINHO {i + 1} · {r.steps} PASSOS
-                            </span>
-                            <h3>{r.name}</h3>
-                            <p>{r.description}</p>
-                            <small>{challengeInfo[r.challenge].name} →</small>
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <p>
-                        O líder vê duas salas em segredo. Aproveite para
-                        combinar a estratégia.
-                      </p>
-                    )}
                   </div>
                 )}
                 {room?.phase === "reaction" && (
@@ -1571,7 +1608,7 @@ function App() {
                     )}
                   </div>
                 )}
-                {room?.phase === "rest" && (
+                {room?.phase === "rest" && !animating && (
                   <div className="decision-panel">
                     <div className="eyebrow">UMA PAUSA MERECIDA</div>
                     <h2>Mais uma história para a taverna.</h2>
@@ -1709,7 +1746,7 @@ function App() {
                     </button>
                   </div>
                 )}
-                {room && ["won", "lost"].includes(room.phase) && (
+                {room && ["won", "lost"].includes(room.phase) && !animating && (
                   <div className="decision-panel final-panel">
                     <div className="eyebrow">
                       {room.phase === "won"

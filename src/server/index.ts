@@ -15,7 +15,7 @@ const http = createServer(async (req, res) => {
   if (req.url?.split("?")[0] === "/api/health") {
     res.setHeader("Content-Type", "application/json");
     res.end(
-      JSON.stringify({ ok: ready, version: "0.1.0", persistence: store.kind }),
+      JSON.stringify({ ok: ready, version: "0.2.0", persistence: store.kind }),
     );
     return;
   }

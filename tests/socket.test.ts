@@ -86,7 +86,7 @@ test(
       assert.equal(ra.revision, rb.revision);
       const cmd = await act(a, ra, "path", { index: 0 });
       assert.equal(ra.enemy.id, rb.enemy.id);
-      const originalRevision = ra.revision;
+      let originalRevision = ra.revision;
       const replay = await emit(a, "room:command", cmd);
       assert.equal(replay.replayed, true);
       assert.equal(ra.revision, originalRevision);
@@ -101,6 +101,19 @@ test(
       });
       assert.equal(wrong.ok, false);
       assert.match(wrong.error, /turno/);
+      const throwing = ra.heroes[ra.active].owner === ra.you ? a : b;
+      const shotCommand = await act(throwing, throwing === a ? ra : rb, "throw", {
+        color: "red", input: {direction: .5, power: .44, loft: .4, release: .62},
+      });
+      assert.deepEqual(ra.lastShot, rb.lastShot);
+      assert.ok(ra.lastShot.at > 0);
+      const shotReplay = await emit(throwing, "room:command", shotCommand);
+      assert.equal(shotReplay.replayed, true);
+      const beforeChat = JSON.stringify(ra.lastShot);
+      await act(a, ra, "chat", {text: "Vamos por aqui!"});
+      assert.equal(rb.log.at(-1).speakerId, ra.you);
+      assert.equal(JSON.stringify(rb.lastShot), beforeChat);
+      originalRevision = ra.revision;
       a.disconnect();
       a = await connect();
       a.on("room:state", (r) => (ra = r));
