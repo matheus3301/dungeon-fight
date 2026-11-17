@@ -26,4 +26,18 @@ A captura `artifacts/mesa-desktop.jpg` documenta a composição durante um comba
 
 ## Limites que continuam abertos
 
-Não foi executado teste de carga, restauração de backup, implantação pública, teste com vários workers ou auditoria de segurança completa. Balanceamento e controles ainda precisam de sessões com grupos reais. O catálogo e quatro desafios desta versão são originais/adaptados; a fidelidade integral à caixa física continua pendente.
+Não foi executado teste de carga, restauração de backup, teste com vários workers ou auditoria de segurança completa. Balanceamento e controles ainda precisam de sessões com grupos reais. O catálogo e quatro desafios desta versão são originais/adaptados; a fidelidade integral à caixa física continua pendente.
+
+## Implantação de 17 de novembro de 2026
+
+- Repositório público `matheus3301/dungeon-fight`, com link de código-fonte nos créditos da aplicação.
+- Imagem reconstruída com `docker build --pull`; execução de produção como usuário `node`, com health check saudável e PostgreSQL 18 descartável.
+- Os 11 testes passaram, incluindo as duas integrações reais, sem testes pulados.
+- Os 172 assets publicados passaram na verificação de hashes, licenças, frames e texturas.
+- Deploy no Coolify via GitHub App e Dockerfile; HTTPS público e HTTPS direto à origem responderam com `persistence: postgres`.
+- O login exclusivo do jogo criou e leu dados no próprio banco; conexões aos bancos administrativos `postgres` e `template1` foram recusadas.
+- Dois clientes Socket.IO na URL pública confirmaram lobby, início, privacidade de caminhos, ação repetida e reconexão. A criação de uma mesa foi conferida também no navegador.
+
+`npm audit --omit=dev` não apontou vulnerabilidades. A auditoria completa apontou quatro entradas de severidade alta na cadeia de build Vite/fdir/tinyglobby/picomatch, referentes ao mesmo [alerta de ReDoS em picomatch](https://github.com/advisories/GHSA-fc5q-39xc-vjpf). A correção automática sugerida exigia um downgrade incompatível do Vite; ele não foi aplicado. Essas dependências não fazem parte da imagem de runtime. Nenhum scanner de imagem estava disponível neste ambiente, portanto não se afirma que houve varredura de vulnerabilidades do sistema operacional.
+
+Configuração e limites operacionais em [DEPLOYMENT.md](DEPLOYMENT.md).
