@@ -1,0 +1,30 @@
+services:
+  game:
+    build: .
+    ports:
+      - "127.0.0.1:${PORT:-4310}:4310"
+    environment:
+      DATABASE_URL: postgres://dungeon:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/dungeon
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:4310}
+      HOST: 0.0.0.0
+      PORT: 4310
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: dungeon
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: dungeon
+    volumes:
+      - game-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dungeon -d dungeon"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+volumes:
+  game-data:

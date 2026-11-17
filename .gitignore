@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.data/
+.env
+.env.*
+!.env.example
+assets/library/
+artifacts/
+.DS_Store
+
+__pycache__/
+*.pyc

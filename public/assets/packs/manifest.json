@@ -1,0 +1,624 @@
+{
+  "version": 1,
+  "licenseNote": "Runtime selection is CC0-1.0. Other candidates retain their own licences and are not relicensed as code.",
+  "packs": [
+    {
+      "id": "0x72-dungeon",
+      "author": "0x72",
+      "source": "https://0x72.itch.io/dungeontileset-ii",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/0x72-dungeon/0x72_DungeonTilesetII_v1.7.zip",
+      "sha256": "a5b23341ebc831d7798bfb9666d864a08c079bb7aed18e3cf023a27d517c1512",
+      "bytes": 416379,
+      "status": "downloaded",
+      "files": 752,
+      "publicRoot": "/assets/packs/0x72",
+      "rawArchiveLocalOnly": true
+    },
+    {
+      "id": "anokolisa-pixel-crawler",
+      "author": "Anokolisa",
+      "source": "https://anokolisa.itch.io/free-pixel-art-asset-pack-topdown-tileset-rpg-16x16-sprites",
+      "license": "LicenseRef-Anokolisa",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/anokolisa-pixel-crawler/Pixel Crawler - Free Pack (Exterior 0.1).zip",
+      "sha256": "d704da1ace748ae5d6dd26a2e821e88ab0b3192b456e708f2140645f1660d36b",
+      "bytes": 2634791,
+      "status": "downloaded",
+      "files": 375,
+      "publicRoot": null,
+      "rawArchiveLocalOnly": true,
+      "usageNote": "Downloaded for local evaluation; custom terms allow use in games but do not clearly grant raw asset republishing. No runtime/public files copied."
+    },
+    {
+      "id": "kenney-casino-audio",
+      "author": "Kenney",
+      "source": "https://kenney.nl/assets/casino-audio",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/kenney-casino-audio/original.zip",
+      "sha256": "f36250766ac5bc378c13708ddf12a23a8e54a3251f8d482c7536e51b5dbafa18",
+      "bytes": 876839,
+      "status": "downloaded",
+      "files": 58,
+      "publicRoot": "/assets/packs/kenney-casino-audio",
+      "rawArchiveLocalOnly": true
+    },
+    {
+      "id": "kenney-fantasy-ui-borders",
+      "author": "Kenney",
+      "source": "https://opengameart.org/content/fantasy-ui-borders",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/kenney-fantasy-ui-borders/original.zip",
+      "sha256": "59532da3bd61195a425585455b40baa6cbf1eda8227c42adcef31a535a737769",
+      "bytes": 358780,
+      "status": "downloaded",
+      "files": 286,
+      "publicRoot": "/assets/packs/fantasy-ui-borders",
+      "rawArchiveLocalOnly": true
+    },
+    {
+      "id": "kenney-mini-dungeon",
+      "author": "Kenney",
+      "source": "https://opengameart.org/content/mini-dungeon",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/kenney-mini-dungeon/original.zip",
+      "sha256": "19c4648680cb1d2e8836cade96cbf9781c0c1f45fbc6d2ce41cee8239a3ec4d8",
+      "bytes": 1796820,
+      "status": "downloaded",
+      "files": 162,
+      "publicRoot": "/assets/packs/mini-dungeon-3d",
+      "rawArchiveLocalOnly": true
+    },
+    {
+      "id": "kenney-rpg-audio",
+      "author": "Kenney",
+      "source": "https://kenney.nl/assets/rpg-audio",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/kenney-rpg-audio/original.zip",
+      "sha256": "6dbeaf8544da958d8f2adcb4a4a4b76c1ade34a05f8ab9edccd327da7375f38b",
+      "bytes": 964837,
+      "status": "downloaded",
+      "files": 55,
+      "publicRoot": "/assets/packs/kenney-rpg-audio",
+      "rawArchiveLocalOnly": true
+    },
+    {
+      "id": "kenney-tiny-dungeon",
+      "author": "Kenney",
+      "source": "https://opengameart.org/content/tiny-dungeon",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/kenney-tiny-dungeon/original.zip",
+      "sha256": "c109438ab06f65fd80f9b2686a4cf9c7c11dc64444b47333ec71d602f8bb5fc7",
+      "bytes": 98530,
+      "status": "downloaded",
+      "files": 142,
+      "publicRoot": "/assets/packs/tiny-dungeon",
+      "rawArchiveLocalOnly": true
+    },
+    {
+      "id": "kenney-ui-pixel-adventure",
+      "author": "Kenney",
+      "source": "https://kenney.nl/assets/ui-pack-pixel-adventure",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/kenney-ui-pixel-adventure/original.zip",
+      "sha256": "0b0ed4802ebcfff5e44e370f394baa1d751862a5a4a7612ac4ce84e85faa0627",
+      "bytes": 317032,
+      "status": "downloaded",
+      "files": 519,
+      "publicRoot": "/assets/packs/ui-pixel-adventure",
+      "rawArchiveLocalOnly": true
+    },
+    {
+      "id": "oryx-16-bit-fantasy",
+      "author": "Oryx Design Lab",
+      "source": "https://www.oryxdesignlab.com/products/p/16-bit-fantasy-tileset",
+      "license": "LicenseRef-Oryx",
+      "status": "not-purchased",
+      "publicRoot": null,
+      "usageNote": "Paid licence; raw pack redistribution restricted. No files downloaded."
+    },
+    {
+      "id": "rubberduck-rpg-sfx",
+      "author": "rubberduck",
+      "source": "https://opengameart.org/content/80-cc0-rpg-sfx",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/rubberduck-rpg-sfx/original.zip",
+      "sha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd",
+      "bytes": 1845114,
+      "status": "downloaded",
+      "files": 80,
+      "publicRoot": "/assets/packs/audio",
+      "rawArchiveLocalOnly": true
+    },
+    {
+      "id": "subspace-retro-sfx",
+      "author": "Juhani Junkala / SubspaceAudio",
+      "source": "https://opengameart.org/content/512-sound-effects-8-bit-style",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/subspace-retro-sfx/original.zip",
+      "sha256": "6d4519229c6e2c9e09502cd4967940052f68664140549a467615b56bdfd1d031",
+      "bytes": 20582855,
+      "status": "downloaded",
+      "files": 513,
+      "publicRoot": null,
+      "rawArchiveLocalOnly": true,
+      "usageNote": "Full 512-effect CC0 pack in local library; initial mix prefers tactile Kenney/rubberduck sounds."
+    },
+    {
+      "id": "three-red-hearts",
+      "author": "Abstraction / Tallbeard Studios",
+      "source": "https://tallbeard.itch.io/three-red-hearts-prepare-to-dev",
+      "license": "CC0-1.0",
+      "retrieved": "2026-11-16",
+      "archive": "assets/library/packs/three-red-hearts/three-red-hearts-prepare-to-dev-download.zip",
+      "sha256": "81c6d6b5ee19f566c9e4992f432c3935fadf555ea3f4c41ca16046c591ba7882",
+      "bytes": 45751053,
+      "status": "downloaded",
+      "files": 24,
+      "publicRoot": "/assets/packs/audio",
+      "rawArchiveLocalOnly": true
+    }
+  ],
+  "heroes": [
+    {
+      "archetype": "knight",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/knight_m_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/knight_m_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/knight_m_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/knight_m_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 28,
+      "frameMs": 180
+    },
+    {
+      "archetype": "elf",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/elf_m_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/elf_m_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/elf_m_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/elf_m_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 28,
+      "frameMs": 180
+    },
+    {
+      "archetype": "wizard",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/wizzard_m_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/wizzard_m_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/wizzard_m_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/wizzard_m_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 28,
+      "frameMs": 180
+    },
+    {
+      "archetype": "lizard",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/lizard_m_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/lizard_m_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/lizard_m_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/lizard_m_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 28,
+      "frameMs": 180
+    },
+    {
+      "archetype": "rogue",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/masked_orc_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/masked_orc_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/masked_orc_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/masked_orc_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 23,
+      "frameMs": 180
+    },
+    {
+      "archetype": "dwarf",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/dwarf_m_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/dwarf_m_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/dwarf_m_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/dwarf_m_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 28,
+      "frameMs": 180
+    },
+    {
+      "archetype": "goblin",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/goblin_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/goblin_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/goblin_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/goblin_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 16,
+      "frameMs": 180
+    },
+    {
+      "archetype": "cleric",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/angel_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/angel_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/angel_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/angel_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 16,
+      "frameMs": 180
+    }
+  ],
+  "bosses": [
+    {
+      "archetype": "bigdemon",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/big_demon_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/big_demon_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/big_demon_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/big_demon_idle_anim_f3.png"
+      ],
+      "width": 32,
+      "height": 36,
+      "frameMs": 180
+    },
+    {
+      "archetype": "bigzombie",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/big_zombie_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/big_zombie_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/big_zombie_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/big_zombie_idle_anim_f3.png"
+      ],
+      "width": 32,
+      "height": 36,
+      "frameMs": 180
+    },
+    {
+      "archetype": "chort",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/chort_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/chort_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/chort_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/chort_idle_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 23,
+      "frameMs": 180
+    },
+    {
+      "archetype": "ogre",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/ogre_idle_anim_f0.png",
+        "/assets/packs/0x72/frames/ogre_idle_anim_f1.png",
+        "/assets/packs/0x72/frames/ogre_idle_anim_f2.png",
+        "/assets/packs/0x72/frames/ogre_idle_anim_f3.png"
+      ],
+      "width": 32,
+      "height": 36,
+      "frameMs": 180
+    },
+    {
+      "archetype": "necromancer",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/necromancer_anim_f0.png",
+        "/assets/packs/0x72/frames/necromancer_anim_f1.png",
+        "/assets/packs/0x72/frames/necromancer_anim_f2.png",
+        "/assets/packs/0x72/frames/necromancer_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 23,
+      "frameMs": 180
+    },
+    {
+      "archetype": "slime",
+      "pack": "0x72-dungeon",
+      "frames": [
+        "/assets/packs/0x72/frames/slug_anim_f0.png",
+        "/assets/packs/0x72/frames/slug_anim_f1.png",
+        "/assets/packs/0x72/frames/slug_anim_f2.png",
+        "/assets/packs/0x72/frames/slug_anim_f3.png"
+      ],
+      "width": 16,
+      "height": 23,
+      "frameMs": 180
+    }
+  ],
+  "audio": [
+    {
+      "event": "throw",
+      "pack": "kenney-casino-audio",
+      "url": "/assets/packs/audio/throw.ogg",
+      "original": "Audio/die-throw-1.ogg",
+      "bytes": 8410,
+      "sha256": "b31d716165be60e442da3c1ca25a3968aad1e0851a7f0859f495aecc02fd9e13",
+      "loop": false
+    },
+    {
+      "event": "shake",
+      "pack": "kenney-casino-audio",
+      "url": "/assets/packs/audio/shake.ogg",
+      "original": "Audio/dice-shake-1.ogg",
+      "bytes": 19388,
+      "sha256": "ba603441c857204dbe3ff3345902c7e1c3f523bf1bd314acf088609bc6c1e4e5",
+      "loop": false
+    },
+    {
+      "event": "card",
+      "pack": "kenney-casino-audio",
+      "url": "/assets/packs/audio/card.ogg",
+      "original": "Audio/card-place-1.ogg",
+      "bytes": 9624,
+      "sha256": "d8f26c33a665dcbdcc6f632f6050bc9dd548feb0d4942d4547615926d3926810",
+      "loop": false
+    },
+    {
+      "event": "shuffle",
+      "pack": "kenney-casino-audio",
+      "url": "/assets/packs/audio/shuffle.ogg",
+      "original": "Audio/card-shuffle.ogg",
+      "bytes": 30002,
+      "sha256": "96c84883a30845ede723a4cf2e8369e9837e7dd4e0d4eb0212b0a7ed21b0f544",
+      "loop": false
+    },
+    {
+      "event": "coin",
+      "pack": "rubberduck-rpg-sfx",
+      "url": "/assets/packs/audio/coin.ogg",
+      "original": "item_coins_01.ogg",
+      "bytes": 18985,
+      "sha256": "4e701b281a4f88768beccbe87af4574d13ac5a4bc5cab6c522f0e79823d6e428",
+      "loop": false
+    },
+    {
+      "event": "hit",
+      "pack": "rubberduck-rpg-sfx",
+      "url": "/assets/packs/audio/hit.ogg",
+      "original": "blade_01.ogg",
+      "bytes": 15142,
+      "sha256": "caf7a7cb9b25cda4bd487c1d12d18b74a34bb18c816fd67277cf3c8d7ef32a3a",
+      "loop": false
+    },
+    {
+      "event": "magic",
+      "pack": "rubberduck-rpg-sfx",
+      "url": "/assets/packs/audio/magic.ogg",
+      "original": "spell_fire_01.ogg",
+      "bytes": 39482,
+      "sha256": "02fa3a2c6e79e868e546802f45127c5cdda69aba6d5a24ac997ea66f81a816cb",
+      "loop": false
+    },
+    {
+      "event": "roar",
+      "pack": "rubberduck-rpg-sfx",
+      "url": "/assets/packs/audio/roar.ogg",
+      "original": "creature_roar_01.ogg",
+      "bytes": 15061,
+      "sha256": "ca1b9198490f29037e6e6487dd6db6165ca8b2583a445c0edd6b9f474d2d1f5f",
+      "loop": false
+    },
+    {
+      "event": "defeat",
+      "pack": "rubberduck-rpg-sfx",
+      "url": "/assets/packs/audio/defeat.ogg",
+      "original": "creature_die_01.ogg",
+      "bytes": 15883,
+      "sha256": "b34a816a401c5d80c77a61dabbedef7d1918a01320bbb67286c70f22db4acd43",
+      "loop": false
+    },
+    {
+      "event": "ui",
+      "pack": "rubberduck-rpg-sfx",
+      "url": "/assets/packs/audio/ui.ogg",
+      "original": "book_01.ogg",
+      "bytes": 34237,
+      "sha256": "39b2d652dc8de9d4100ae8a1d23364077fff39bf1c90009b0c0d72af8c47d0d4",
+      "loop": false
+    },
+    {
+      "event": "exploration",
+      "pack": "three-red-hearts",
+      "url": "/assets/packs/audio/exploration.ogg",
+      "original": "Three Red Hearts - Sanctuary.ogg",
+      "bytes": 1955804,
+      "sha256": "2025ea863cecf0d36bc641a30f30ef99e451ee8cfd02f1be9c7d1d02c4d336f1",
+      "loop": true
+    },
+    {
+      "event": "battle",
+      "pack": "three-red-hearts",
+      "url": "/assets/packs/audio/battle.ogg",
+      "original": "Three Red Hearts - Rumble at the Gates.ogg",
+      "bytes": 2773058,
+      "sha256": "e0ec072b0b7a86018bbbf5f9329dcc2e499c7e6ea582f136d7265f2fbf88c528",
+      "loop": true
+    }
+  ],
+  "textures": {
+    "floor": "/assets/packs/0x72/frames/floor_1.png",
+    "wall": "/assets/packs/0x72/frames/wall_mid.png",
+    "chest": "/assets/packs/0x72/frames/chest_full_open_anim_f2.png"
+  },
+  "models3d": [
+    {
+      "id": "pot",
+      "url": "/assets/packs/mini-dungeon-3d/models/pot.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "wall-opening",
+      "url": "/assets/packs/mini-dungeon-3d/models/wall-opening.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "chair",
+      "url": "/assets/packs/mini-dungeon-3d/models/chair.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "floor",
+      "url": "/assets/packs/mini-dungeon-3d/models/floor.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "wall",
+      "url": "/assets/packs/mini-dungeon-3d/models/wall.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "shield-round",
+      "url": "/assets/packs/mini-dungeon-3d/models/shield-round.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "column",
+      "url": "/assets/packs/mini-dungeon-3d/models/column.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "stairs",
+      "url": "/assets/packs/mini-dungeon-3d/models/stairs.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "barrel",
+      "url": "/assets/packs/mini-dungeon-3d/models/barrel.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "table",
+      "url": "/assets/packs/mini-dungeon-3d/models/table.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "coin",
+      "url": "/assets/packs/mini-dungeon-3d/models/coin.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "wood-support",
+      "url": "/assets/packs/mini-dungeon-3d/models/wood-support.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "character-human",
+      "url": "/assets/packs/mini-dungeon-3d/models/character-human.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "floor-detail",
+      "url": "/assets/packs/mini-dungeon-3d/models/floor-detail.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "dirt",
+      "url": "/assets/packs/mini-dungeon-3d/models/dirt.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "potion",
+      "url": "/assets/packs/mini-dungeon-3d/models/potion.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "weapon-spear",
+      "url": "/assets/packs/mini-dungeon-3d/models/weapon-spear.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "trap",
+      "url": "/assets/packs/mini-dungeon-3d/models/trap.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "wall-narrow",
+      "url": "/assets/packs/mini-dungeon-3d/models/wall-narrow.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "banner",
+      "url": "/assets/packs/mini-dungeon-3d/models/banner.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "key",
+      "url": "/assets/packs/mini-dungeon-3d/models/key.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "gate",
+      "url": "/assets/packs/mini-dungeon-3d/models/gate.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "rocks",
+      "url": "/assets/packs/mini-dungeon-3d/models/rocks.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "wood-structure",
+      "url": "/assets/packs/mini-dungeon-3d/models/wood-structure.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "stones",
+      "url": "/assets/packs/mini-dungeon-3d/models/stones.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "chest",
+      "url": "/assets/packs/mini-dungeon-3d/models/chest.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "weapon-sword",
+      "url": "/assets/packs/mini-dungeon-3d/models/weapon-sword.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "shield-rectangle",
+      "url": "/assets/packs/mini-dungeon-3d/models/shield-rectangle.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "wall-half",
+      "url": "/assets/packs/mini-dungeon-3d/models/wall-half.glb",
+      "pack": "kenney-mini-dungeon"
+    },
+    {
+      "id": "character-orc",
+      "url": "/assets/packs/mini-dungeon-3d/models/character-orc.glb",
+      "pack": "kenney-mini-dungeon"
+    }
+  ]
+}
