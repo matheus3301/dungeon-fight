@@ -591,6 +591,11 @@ function Assets() {
             licença do código.
           </p>
           <p>
+            <a href="https://github.com/matheus3301/dungeon-fight" target="_blank" rel="noreferrer">
+              Código-fonte desta versão ↗
+            </a>
+          </p>
+          <p>
             Personagens e encontros deste pacote são originais de demonstração.
             Esta versão é uma adaptação experimental inspirada em Dungeon
             Fighter, não uma edição digital oficial ou catálogo completo do jogo

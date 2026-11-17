@@ -2,6 +2,8 @@
 
 Uma mesa cooperativa de fantasia para jogar no navegador: convide amigos, escolha heróis e enfrente uma expedição com arremessos de dados em um alvo compartilhado. Projeto gratuito e aberto, inspirado em Dungeon Fighter. Não é uma edição digital oficial.
 
+[Jogar online](https://dungeon-fight.mmonteiro.dev) · [Código-fonte](https://github.com/matheus3301/dungeon-fight)
+
 ## O que já funciona
 
 - Sala privada por link, até seis jogadores, lobby e heróis exclusivos. Solo controla dois heróis.
@@ -78,7 +80,7 @@ Oryx não foi adquirido. Anokolisa foi baixado para avaliação local e fica for
 
 ## Biblioteca completa de origem
 
-Os catálogos fixam revisões e hashes. Para baixar/revalidar os snapshots de jogos, use `python3 scripts/assets/download_sources.py`. Downloads completos já existentes são reutilizados quando o hash confere. É uma operação de vários GB; a biblioteca fica fora do Git e da imagem Docker. Os scripts de curadoria em `scripts/assets` documentam a seleção. Eles não executam programas nem projetos Blender baixados.
+Os catálogos fixam revisões e hashes. Para baixar/revalidar os snapshots de jogos, use `uv run scripts/assets/download_sources.py`. Downloads completos já existentes são reutilizados quando o hash confere. É uma operação de vários GB; a biblioteca fica fora do Git e da imagem Docker. Os scripts de curadoria em `scripts/assets` documentam a seleção. Eles não executam programas nem projetos Blender baixados.
 
 ## Limites desta versão
 

@@ -17,4 +17,4 @@ COPY src/shared ./src/shared
 USER node
 EXPOSE 4310
 HEALTHCHECK --interval=30s --timeout=4s CMD node -e "fetch('http://127.0.0.1:4310/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
-CMD ["npm","start"]
+CMD ["node","--import","tsx","src/server/index.ts"]
